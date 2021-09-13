@@ -9,6 +9,11 @@ body {
   color: #fff;
 }
 
+.primary-color:hover{
+  background-color: #F04444;
+  color: #fff;
+}
+
 .primary-text{
   color: #FE696A;
 }
