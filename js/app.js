@@ -30,10 +30,10 @@ const showProducts = (products) => {
                 <h class="mt-3 fw-bold">Price: $ ${product.price}</h>
               </div
           </div>
-          <div class="card-footer d-flex justify-content-center bg-white">
+          <div class="card-footer d-flex justify-content-center">
               <button onclick="addToCart('${product.id}', '${product.price}')" id="addToCart-btn" class="btn primary-color me-2"><i class="fas fa-cart-plus"></i> Add to cart</button>
 
-              <button onclick="displayProductDetails('${product.title}', '${product.description}')" id="details-btn" class="btn bg-white border-secondary" data-bs-toggle="modal" data-bs-target="#productModal">
+              <button onclick="displayProductDetails(${product.id})" id="details-btn" class="btn bg-white border-secondary" data-bs-toggle="modal" data-bs-target="#productModal">
               <i class="far fa-eye"></i> Details</button>  
           </div>
           
@@ -102,27 +102,32 @@ const updateTotal = () => {
 };
 
 // modalConent
-const displayProductDetails = (title, description) => {
-
+const displayProductDetails = (id) => {
   const modalDialog = document.getElementsByClassName('modal-dialog')[0]
   modalDialog.textContent = '';
-
-  const modalConent = `
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">${title}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ${description}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"><i class="far fa-heart"></i> Add to favorite</button>
-      </div>
-    </div>
-  `
-  modalDialog.innerHTML = modalConent;
+  url =  `https://fakestoreapi.com/products/${id}`
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      const modalConent = `
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">${data.title}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ${data.description}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"><i class="far fa-heart"></i> Add to favorite</button>
+          </div>
+        </div>
+      `
+      modalDialog.innerHTML = modalConent;
+    });
+  
+  
 }
 
 // calculate star icon form value
